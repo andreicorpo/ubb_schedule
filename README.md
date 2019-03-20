@@ -1,3 +1,6 @@
-# uni_schedule_app
+# UBB M&CS Schedule
+##The app is still in development, but it is functional
 
-A new Flutter project.
+UBB M&CS Schedule is an app which helps the students and teachers from the university of Babes Bolyai Mathematics and Computer Science check their schedule more easily.
+
+
