@@ -24,7 +24,7 @@ class _ScheduleState extends State<Schedule> {
               stream: bloc.currentScheduleType,
               builder: (context, snapshot) {
                 return FutureBuilder(
-                  future: user.getData(snapshot.data),
+                  future: user.getData(snapshot.data, bloc.currHour),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       var _schedule = snapshot.data;

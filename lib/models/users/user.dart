@@ -1,3 +1,3 @@
 abstract class User {
-  Future<List> getData(String scheduleType);
+  Future<List> getData(String scheduleType, int currTime);
 }

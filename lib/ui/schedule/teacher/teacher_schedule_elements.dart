@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uni_schedule_app/models/inherited_bloc.dart';
 
 class TimeAndDay extends StatelessWidget {
   final userClass;
@@ -138,6 +139,7 @@ Color classTypeColor(String firstLetter) {
 }
 
 Widget classItem(BuildContext context, var userClass, String scheduleType) {
+  final bloc = InheritedBloc.of(context).userBloc;
   return Padding(
     padding: const EdgeInsets.all(18.0),
     child: Container(
@@ -161,6 +163,12 @@ Widget classItem(BuildContext context, var userClass, String scheduleType) {
           accentColor: classTypeColor(userClass.classType[0]),
         ),
         child: ExpansionTile(
+          initiallyExpanded: scheduleType == 'today'
+              ? userClass.startTime <= bloc.currHour &&
+                      bloc.currHour <= userClass.endTime
+                  ? true
+                  : false
+              : false,
           title: ListTile(
             title: Text(
               '${userClass.className}',

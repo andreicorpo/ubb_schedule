@@ -8,7 +8,7 @@ import 'package:uni_schedule_app/models/users/teacher/user_teacher.dart';
 import 'package:uni_schedule_app/models/users/user.dart';
 
 class UserBloc {
-  String userType;
+  int currHour;
 
   final _currentUser = BehaviorSubject<UserState>();
   final _changeUser = StreamController<User>();
@@ -20,6 +20,10 @@ class UserBloc {
   final _changeScheduleType = StreamController<String>();
 
   UserBloc() {
+    currHour = DateTime.now().hour;
+    Timer.periodic(Duration(minutes: 1), (_) {
+      currHour = DateTime.now().hour;
+    });
     _loadPrefs();
     _changeUser.stream.listen((user) {
       _savePrefsUser(user);

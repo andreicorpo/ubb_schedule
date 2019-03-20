@@ -12,7 +12,8 @@ class UserTeacher implements User {
   UserTeacher({this.name, this.link});
 
   @override
-  Future<List<UserTeacherClass>> getData(String scheduleType) async {
+  Future<List<UserTeacherClass>> getData(
+      String scheduleType, int currTime) async {
     List<String> schedule = [];
     List<List<String>> schedules = [];
     List<UserTeacherClass> classes = [];
@@ -60,6 +61,7 @@ class UserTeacher implements User {
           return classes;
         case 'today':
           classes.removeWhere((c) => c.day != weekdayToday);
+          classes.removeWhere((c) => currTime >= c.endTime);
           return classes;
         case 'tommorow':
           classes.removeWhere((c) => c.day != weekdayTommorow);

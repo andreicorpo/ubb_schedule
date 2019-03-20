@@ -36,16 +36,7 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
         },
       );
     } else {
-      return StreamBuilder(
-        stream: bloc.currentScheduleType,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return EmptySchedule();
-          } else {
-            return Container();
-          }
-        },
-      );
+      return EmptySchedule();
     }
   }
 }
