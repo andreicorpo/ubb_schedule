@@ -1,5 +1,5 @@
 # UBB M&CS Schedule
-##The app is still in development, but it is functional
+## The app is still in development, but it is functional from version 0.2
 
 UBB M&CS Schedule is an app which helps the students and teachers from the university of Babes Bolyai Mathematics and Computer Science check their schedule more easily.
 
