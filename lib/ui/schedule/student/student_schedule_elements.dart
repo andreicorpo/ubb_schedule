@@ -107,78 +107,86 @@ Color classTypeColor(String firstLetter) {
   }
 }
 
-Widget classItem(BuildContext context, var userClass, String scheduleType) {
+Widget classItem(BuildContext context, var userClass, String scheduleType,
+    bool initiallyExpanded) {
   final bloc = InheritedBloc.of(context).userBloc;
-  return Padding(
-    padding: const EdgeInsets.all(18.0),
-    child: Container(
-      decoration: BoxDecoration(
-          color:
-              Theme.of(context).primaryColor == Color.fromARGB(255, 29, 66, 113)
-                  ? Colors.white
-                  : Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(18.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              offset: Offset(0.0, 3.0),
-              blurRadius: 4.0,
-            )
-          ]),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
-          dividerColor: Colors.transparent,
-          accentColor: classTypeColor(userClass.classType[0]),
-        ),
-        child: ExpansionTile(
-          initiallyExpanded: scheduleType == 'today'
-              ? userClass.startTime <= bloc.currHour &&
-                      bloc.currHour <= userClass.endTime
-                  ? true
-                  : false
-              : false,
-          title: ListTile(
-            title: Text(
-              '${userClass.className}',
-              style: TextStyle(
-                fontSize: 18.0,
-              ),
-            ),
-            subtitle: Opacity(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.location_on,
-                    size: 14.0,
-                    color: classTypeColor(userClass.classType[0]),
+  return StreamBuilder(
+      stream: bloc.currentHour,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor ==
+                          Color.fromARGB(255, 29, 66, 113)
+                      ? Colors.white
+                      : Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(18.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      offset: Offset(0.0, 3.0),
+                      blurRadius: 4.0,
+                    )
+                  ]),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  dividerColor: Colors.transparent,
+                  accentColor: classTypeColor(userClass.classType[0]),
+                ),
+                child: ExpansionTile(
+                  initiallyExpanded: initiallyExpanded,
+                  title: ListTile(
+                    title: Text(
+                      '${userClass.className}',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    subtitle: Opacity(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.location_on,
+                            size: 14.0,
+                            color: classTypeColor(userClass.classType[0]),
+                          ),
+                          SizedBox(width: 4.0),
+                          Text('${userClass.location}'),
+                        ],
+                      ),
+                      opacity: 0.8,
+                    ),
                   ),
-                  SizedBox(width: 4.0),
-                  Text('${userClass.location}'),
-                ],
+                  leading: CircleAvatar(
+                    backgroundColor: classTypeColor(userClass.classType[0]),
+                    foregroundColor: Colors.white,
+                    child: Text('${userClass.classType[0]}'),
+                  ),
+                  children: <Widget>[
+                    Divider(
+                      color: Colors.black.withOpacity(0.5),
+                      indent: 32,
+                    ),
+                    ClassInfo(
+                      userClass: userClass,
+                    ),
+                    TeacherInfo(
+                      userClass: userClass,
+                    )
+                  ],
+                ),
               ),
-              opacity: 0.8,
             ),
-          ),
-          leading: CircleAvatar(
-            backgroundColor: classTypeColor(userClass.classType[0]),
-            foregroundColor: Colors.white,
-            child: Text('${userClass.classType[0]}'),
-          ),
-          children: <Widget>[
-            Divider(
-              color: Colors.black.withOpacity(0.5),
-              indent: 32,
+          );
+        } else {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
-            ClassInfo(
-              userClass: userClass,
-            ),
-            TeacherInfo(
-              userClass: userClass,
-            )
-          ],
-        ),
-      ),
-    ),
-  );
+          );
+        }
+      });
 }

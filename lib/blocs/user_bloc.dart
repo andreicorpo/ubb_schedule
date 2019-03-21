@@ -19,14 +19,18 @@ class UserBloc {
   final _currentScheduleType = BehaviorSubject<String>.seeded('today');
   final _changeScheduleType = StreamController<String>();
 
+  final _currentHour = BehaviorSubject<int>.seeded(DateTime.now().hour);
+  final _changeHour = StreamController<int>();
+
   UserBloc() {
-    currHour = DateTime.now().hour;
+    _currentHour.add(DateTime.now().hour);
     Timer.periodic(Duration(minutes: 1), (_) {
-      currHour = DateTime.now().hour;
+      _currentHour.add(DateTime.now().hour);
     });
     _loadPrefs();
     _changeUser.stream.listen((user) {
       _savePrefsUser(user);
+      _savePrefsUserType(user is UserTeacher ? 'teacher' : 'student');
     });
     _changeUserType.stream.listen((userType) {
       _savePrefsUserType(userType);
@@ -50,6 +54,8 @@ class UserBloc {
 
   Sink<String> get changeScheduleType => _changeScheduleType.sink;
 
+  Stream<int> get currentHour => _currentHour.stream;
+
   void close() {
     _currentUser.close();
     _changeUser.close();
@@ -57,6 +63,8 @@ class UserBloc {
     _currentScheduleType.close();
     _changeUserType.close();
     _changeScheduleType.close();
+    _currentHour.close();
+    _changeHour.close();
   }
 
   void _savePrefsUserType(String userType) async {

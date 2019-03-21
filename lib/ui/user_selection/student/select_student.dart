@@ -39,10 +39,6 @@ class _StudentSelectionState extends State<StudentSelection> {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: year,
-              // ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: MajorDropdown(),
