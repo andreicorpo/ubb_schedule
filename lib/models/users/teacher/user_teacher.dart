@@ -60,8 +60,13 @@ class UserTeacher implements User {
         case 'full':
           return classes;
         case 'today':
-          classes.removeWhere((c) => c.day != weekdayToday);
-          classes.removeWhere((c) => currTime >= c.endTime);
+          if (classes.isNotEmpty) {
+            classes.removeWhere((c) => c.day != weekdayToday);
+          }
+          print(currTime);
+          if (classes.isNotEmpty) {
+            classes.removeWhere((c) => currTime >= c.endTime);
+          }
           return classes;
         case 'tommorow':
           classes.removeWhere((c) => c.day != weekdayTommorow);

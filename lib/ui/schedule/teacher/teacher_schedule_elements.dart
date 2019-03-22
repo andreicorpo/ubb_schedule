@@ -93,18 +93,6 @@ class GroupAndReccurence extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  Icons.person,
-                  color: classTypeColor(userClass.classType[0]),
-                ),
-                SizedBox(width: 6.0),
-                Text('${userClass.major}'),
-              ],
-            ),
-          ),
           !userClass.reccurence.contains('sapt')
               ? Container()
               : Container(
@@ -138,7 +126,8 @@ Color classTypeColor(String firstLetter) {
   }
 }
 
-Widget classItem(BuildContext context, var userClass, String scheduleType) {
+Widget classItem(BuildContext context, var userClass, String scheduleType,
+    bool initiallyExpanded) {
   final bloc = InheritedBloc.of(context).userBloc;
   return Padding(
     padding: const EdgeInsets.all(18.0),
@@ -163,12 +152,7 @@ Widget classItem(BuildContext context, var userClass, String scheduleType) {
           accentColor: classTypeColor(userClass.classType[0]),
         ),
         child: ExpansionTile(
-          initiallyExpanded: scheduleType == 'today'
-              ? userClass.startTime <= bloc.currHour &&
-                      bloc.currHour <= userClass.endTime
-                  ? true
-                  : false
-              : false,
+          initiallyExpanded: initiallyExpanded,
           title: ListTile(
             title: Text(
               '${userClass.className}',

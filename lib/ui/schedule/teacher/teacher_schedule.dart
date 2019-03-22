@@ -26,8 +26,8 @@ class _TeacherScheduleState extends State<TeacherSchedule> {
             return Container(
               child: ListView.builder(
                 itemCount: widget.schedule.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    classItem(context, widget.schedule[index], snapshot.data),
+                itemBuilder: (BuildContext context, int index) => classItem(
+                    context, widget.schedule[index], snapshot.data, index == 0),
               ),
             );
           } else {

@@ -27,29 +27,37 @@ class _ScheduleState extends State<Schedule> {
                 return StreamBuilder(
                     stream: bloc.currentHour,
                     builder: (context, snapshot) {
-                      int hour = snapshot.data;
-                      return FutureBuilder(
-                        future: user.getData(scheduleType, hour),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            var _schedule = snapshot.data;
-                            return userType == 'teacher'
-                                ? TeacherSchedule(
-                                    schedule: _schedule,
-                                  )
-                                : StudentSchedule(
-                                    schedule: _schedule,
-                                  );
-                          } else {
-                            return Container(
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                        },
-                      );
+                      if (snapshot.hasData) {
+                        int hour = snapshot.data;
+                        return FutureBuilder(
+                          future: user.getData(scheduleType, hour),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              var _schedule = snapshot.data;
+                              return userType == 'teacher'
+                                  ? TeacherSchedule(
+                                      schedule: _schedule,
+                                    )
+                                  : StudentSchedule(
+                                      schedule: _schedule,
+                                    );
+                            } else {
+                              return Container(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      } else {
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
                     });
               });
         } else {
