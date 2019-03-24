@@ -55,7 +55,7 @@ class UserTeacher implements User {
         },
       );
       String weekdayToday = getDay(DateTime.now().weekday);
-      String weekdayTommorow = getDay(DateTime.now().weekday + 1);
+      String weekdayTommorow = getDay((DateTime.now().weekday + 1) % 7);
       switch (scheduleType) {
         case 'full':
           return classes;
@@ -63,7 +63,6 @@ class UserTeacher implements User {
           if (classes.isNotEmpty) {
             classes.removeWhere((c) => c.day != weekdayToday);
           }
-          print(currTime);
           if (classes.isNotEmpty) {
             classes.removeWhere((c) => currTime >= c.endTime);
           }

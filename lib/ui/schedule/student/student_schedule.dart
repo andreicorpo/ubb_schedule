@@ -18,6 +18,13 @@ class _StudentScheduleState extends State<StudentSchedule> {
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context).userBloc;
+    final Map<String, bool> days = {
+      'Luni': false,
+      'Marti': false,
+      'Miercuri': false,
+      'Joi': false,
+      'Vineri': false
+    };
     if (widget.schedule.length > 0) {
       return StreamBuilder(
         stream: bloc.currentScheduleType,
@@ -26,8 +33,13 @@ class _StudentScheduleState extends State<StudentSchedule> {
             return Container(
               child: ListView.builder(
                 itemCount: widget.schedule.length,
-                itemBuilder: (BuildContext context, int index) => classItem(
-                    context, widget.schedule[index], snapshot.data, index == 0),
+                itemBuilder: (BuildContext context, int index) => Column(
+                      children: <Widget>[
+                        addDaySeparator(context, days, widget.schedule[index]),
+                        classItem(context, widget.schedule[index],
+                            snapshot.data, index == 0),
+                      ],
+                    ),
               ),
             );
           } else {

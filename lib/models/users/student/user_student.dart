@@ -52,7 +52,7 @@ class UserStudent implements User {
       classes.removeWhere(
           (c) => c.group.contains('/') && c.group.split('/')[1] != '$subgroup');
       String weekdayToday = getDay(DateTime.now().weekday);
-      String weekdayTommorow = getDay(DateTime.now().weekday + 1);
+      String weekdayTommorow = getDay((DateTime.now().weekday + 1) % 7);
       switch (scheduleType) {
         case 'full':
           return classes;

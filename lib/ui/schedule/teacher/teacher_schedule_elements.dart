@@ -126,9 +126,34 @@ Color classTypeColor(String firstLetter) {
   }
 }
 
+Widget addDaySeparator(BuildContext context, var days, var userClass) {
+  if (!days[userClass.day]) {
+    days[userClass.day] = true;
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.8,
+        padding: EdgeInsets.only(
+          bottom: 8.0,
+          top: 8.0,
+        ),
+        child: Text(
+          userClass.day,
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).accentColor,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  } else {
+    return Container();
+  }
+}
+
 Widget classItem(BuildContext context, var userClass, String scheduleType,
     bool initiallyExpanded) {
-  final bloc = InheritedBloc.of(context).userBloc;
   return Padding(
     padding: const EdgeInsets.all(18.0),
     child: Container(

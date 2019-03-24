@@ -49,13 +49,8 @@ class _SecondBaseState extends State<SecondBase> {
                     child: StreamBuilder(
                       stream: blocUser.currentUserType,
                       builder: (context, snapshot) {
-                        return GestureDetector(
-                          onTap: () {
-                            snapshot.data == "teacher"
-                                ? blocUser.changeUserType.add('student')
-                                : blocUser.changeUserType.add('teacher');
-                          },
-                          child: Row(
+                        if (snapshot.hasData) {
+                          return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
@@ -65,19 +60,28 @@ class _SecondBaseState extends State<SecondBase> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Opacity(
-                                opacity: 0.5,
-                                child: Text(
-                                  'Mod curent: ${snapshot.data == "teacher" ? "Profesor" : "Student"}',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
+                              FlatButton(
+                                child: Opacity(
+                                  opacity: 0.5,
+                                  child: Text(
+                                    'Mod curent: ${snapshot.data == "teacher" ? "Profesor" : "Student"}',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
+                                onPressed: () {
+                                  snapshot.data == "teacher"
+                                      ? blocUser.changeUserType.add('student')
+                                      : blocUser.changeUserType.add('teacher');
+                                },
                               ),
                             ],
-                          ),
-                        );
+                          );
+                        } else {
+                          return Container();
+                        }
                       },
                     ),
                   )

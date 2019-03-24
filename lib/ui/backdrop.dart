@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_schedule_app/models/inherited_bloc.dart';
 import 'package:uni_schedule_app/models/users/teacher/user_teacher.dart';
 import 'package:uni_schedule_app/ui/schedule/schedule.dart';
-import 'package:uni_schedule_app/ui/second_base.dart';
+import 'package:uni_schedule_app/ui/settings.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 class BackdropPage extends StatefulWidget {
@@ -183,35 +183,28 @@ class _BackdropPageState extends State<BackdropPage>
                       stream: bloc.currentUser,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return GestureDetector(
-                            onTap: () {
+                          return FlatButton(
+                            onPressed: () {
                               _controller.fling(
                                   velocity: _isPanelVisible ? -1.0 : 1.0);
                               this.setState(() => widget._title);
                             },
-                            child: SwipeDetector(
-                              child: Container(
-                                height: widget._panelHeaderHeight,
-                                child: Center(
-                                  child: snapshot.data.user is UserTeacher
-                                      ? Text(
-                                          '${snapshot.data.user.name}',
-                                        )
-                                      : Text(
-                                          'Subgrupa ${snapshot.data.user.group}/${snapshot.data.user.subgroup}',
-                                        ),
-                                ),
+                            child: Container(
+                              height: widget._panelHeaderHeight,
+                              width: MediaQuery.of(context).size.width,
+                              child: Center(
+                                child: snapshot.data.user is UserTeacher
+                                    ? snapshot.data.user.name != null
+                                        ? Text(
+                                            '${snapshot.data.user.name ?? ''}',
+                                          )
+                                        : Text('Select User')
+                                    : snapshot.data.user.group != null
+                                        ? Text(
+                                            'Subgrupa ${snapshot.data.user.group}/${snapshot.data.user.subgroup}',
+                                          )
+                                        : Text('Select User'),
                               ),
-                              onSwipeUp: () {
-                                _controller.fling(
-                                    velocity: _isPanelVisible ? -1.0 : 1.0);
-                                this.setState(() => widget._title);
-                              },
-                              onSwipeDown: () {
-                                _controller.fling(
-                                    velocity: _isPanelVisible ? -1.0 : 1.0);
-                                this.setState(() => widget._title);
-                              },
                             ),
                           );
                         } else {

@@ -33,8 +33,7 @@ class UserBloc {
       _savePrefsUserType(user is UserTeacher ? 'teacher' : 'student');
     });
     _changeUserType.stream.listen((userType) {
-      _savePrefsUserType(userType);
-      _loadPrefs();
+      _savePrefsUserType(userType)..then((_) => _loadPrefs());
     });
 
     _changeScheduleType.stream.listen((scheduleType) {
@@ -67,7 +66,7 @@ class UserBloc {
     _changeHour.close();
   }
 
-  void _savePrefsUserType(String userType) async {
+  Future _savePrefsUserType(String userType) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userType', userType);
     _currentUserType.add(userType);
